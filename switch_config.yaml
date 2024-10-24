@@ -3,65 +3,64 @@
   hosts: switches
   gather_facts: no
   connection: network_cli
-  collections:
-    - cisco.ios
   tasks:
     - name: Domain Lookup deaktivieren
-      cisco.ios.ios_config:
-        lines:
-          - no ip domain-lookup
+      command: no ip domain-lookup
 
     - name: Enable Secret konfigurieren
-      cisco.ios.ios_config:
-        lines:
-          - enable secret cisco
+      command: enable secret cisco
 
     - name: Konsolen-Login konfigurieren
-      cisco.ios.ios_config:
-        lines:
-          - line con 0
-          - password cisco
-          - login
-          - exec-timeout 15 0
-        parents: line con 0
+      command: line con 0
+      register: console_config
+
+    - name: Konsolen-Passwort setzen
+      command: password cisco
+      when: console_config.rc == 0
+
+    - name: Konsolen-Login aktivieren
+      command: login
+      when: console_config.rc == 0
+
+    - name: Exec-Timer konfigurieren
+      command: exec-timeout 15 0
+      when: console_config.rc == 0
 
     - name: Hostname konfigurieren
-      cisco.ios.ios_config:
-        lines:
-          - hostname Switch01
+      command: hostname Switch01
 
     - name: Domain-Name konfigurieren
-      cisco.ios.ios_config:
-        lines:
-          - ip domain-name 8.8.8.8
+      command: ip domain-name 8.8.8.8
 
     - name: Benutzer konfigurieren
-      cisco.ios.ios_config:
-        lines:
-          - username admin secret cisco
+      command: username admin secret cisco
 
     - name: Passwörter verschlüsseln
-      cisco.ios.ios_config:
-        lines:
-          - service password-encryption
+      command: service password-encryption
 
     - name: RSA-Schlüssel für SSH generieren
-      cisco.ios.ios_config:
-        lines:
-          - crypto key generate rsa general-keys modulus 2048
+      command: crypto key generate rsa general-keys modulus 2048
       register: crypto_key_output
 
     - name: SSH Version 2 aktivieren
-      cisco.ios.ios_config:
-        lines:
-          - ip ssh version 2
+      command: ip ssh version 2
 
     - name: VTY-Leitungen konfigurieren
-      cisco.ios.ios_config:
-        lines:
-          - line vty 0 4
-          - password cisco
-          - login local
-          - exec-timeout 15 0
-          - transport input ssh
-        parents: line vty 5 15
+      command: line vty 0 4
+      register: vty_config
+
+    - name: VTY-Passwort setzen
+      command: password cisco
+      when: vty_config.rc == 0
+
+    - name: VTY-Login aktivieren
+      command: login local
+      when: vty_config.rc == 0
+
+    - name: Exec-Timer für VTY konfigurieren
+      command: exec-timeout 15 0
+      when: vty_config.rc == 0
+
+    - name: Transport für VTY aktivieren
+      command: transport input ssh
+      when: vty_config.rc == 0
