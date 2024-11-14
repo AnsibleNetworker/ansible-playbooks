@@ -7,17 +7,17 @@
     - cisco.ios
   tasks:
     - name: Domain Lookup deaktivieren
-      ios_config:
+      cisco.ios.ios_config:
         lines:
           - no ip domain-lookup
 
     - name: Enable Secret konfigurieren
-      ios_config:
+      cisco.ios.ios_config:
         lines:
           - enable secret cisco
 
     - name: Konsolen-Login konfigurieren
-      ios_config:
+      cisco.ios.ios_config:
         lines:
           - line con 0
           - password cisco
@@ -26,38 +26,38 @@
         parents: line con 0
 
     - name: Hostname konfigurieren
-      ios_config:
+      cisco.ios.ios_config:
         lines:
           - hostname Switch01
 
     - name: Domain-Name konfigurieren
-      ios_config:
+      cisco.ios.ios_config:
         lines:
           - ip domain-name 8.8.8.8
 
     - name: Benutzer konfigurieren
-      ios_config:
+      cisco.ios.ios_config:
         lines:
           - username admin secret cisco
 
     - name: Passwörter verschlüsseln
-      ios_config:
+      cisco.ios.ios_config:
         lines:
           - service password-encryption
 
     - name: RSA-Schlüssel für SSH generieren
-      ios_config:
+      cisco.ios.ios_config:
         lines:
           - crypto key generate rsa general-keys modulus 2048
       register: crypto_key_output
 
     - name: SSH Version 2 aktivieren
-      ios_config:
+      cisco.ios.ios_config:
         lines:
           - ip ssh version 2
 
     - name: VTY-Leitungen konfigurieren
-      ios_config:
+      cisco.ios.ios_config:
         lines:
           - line vty 0 4
           - password cisco
