@@ -1,8 +1,9 @@
-- name: Configure the login banner
-  cisco.ios.ios_banner:
-    banner: login
-    text: |
-      this is my login banner
-      that contains a multiline
-      string
-    state: present
+---
+
+- name: Banner Config
+  hosts: switches
+  gather_facts: no
+  tasks:
+    - name: Bannerung
+      ansible.builtin.command:
+        cmd: "banner login ^C\nWillkommen auf dem Bannermann!^C"
