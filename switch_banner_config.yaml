@@ -1,25 +1,8 @@
----
-- name: Configure Banner on Switch
-  hosts: switches
-  gather_facts: no
-  vars:
-    banner_message: |
-      *********************************************************
-      *                                                       *
-      *  UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED     *
-      *  All activities on this device are logged and         *
-      *  monitored.                                           *
-      *                                                       *
-      *********************************************************
-  tasks:
-    - name: Configure banner
-      ios_config:
-        lines:
-          - "{{ banner_message }}"
-        parents: banner motd
-      when: ansible_network_os == 'ios'
-
-    - name: Save configuration
-      ios_config:
-        save: yes
-      when: ansible_network_os == 'ios'
+- name: Configure the login banner
+  cisco.ios.ios_banner:
+    banner: login
+    text: |
+      this is my login banner
+      that contains a multiline
+      string
+    state: present
