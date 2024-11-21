@@ -1,19 +1,25 @@
 ---
-- hosts: ios
+- name: Configure Banner on Switch
+  hosts: switches
   gather_facts: no
-
+  vars:
+    banner_message: |
+      *********************************************************
+      *                                                       *
+      *  UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED     *
+      *  All activities on this device are logged and         *
+      *  monitored.                                           *
+      *                                                       *
+      *********************************************************
   tasks:
+    - name: Configure banner
+      ios_config:
+        lines:
+          - "{{ banner_message }}"
+        parents: banner motd
+      when: ansible_network_os == 'ios'
 
-  - name: CONFIGURE BANNER ON CISCO DEVICES
-    ios_banner:
-      banner: login
-      text: "{{ lookup('file', './vars/raw_banner.cfg') }}"
-      state: present
-
-  - name: SHOW RUN | BEG BANNER 
-    ios_command:
-      commands:
-        - show run | beg HODL
-    register: banner
-
-  - debug: var=banner.stdout_lines
+    - name: Save configuration
+      ios_config:
+        save: yes
+      when: ansible_network_os == 'ios'
