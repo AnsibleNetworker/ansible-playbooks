@@ -5,5 +5,11 @@
   gather_facts: no
   tasks:
     - name: Bannerung
-      ansible.builtin.command:
-        cmd: "banner login ^C\nWillkommen auf dem Bannermann!^C"
+    ios_command:
+    commands:
+    banner: login
+    text: |
+      this is my login banner
+      that contains a multiline
+      string
+    state: present
