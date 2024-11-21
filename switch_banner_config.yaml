@@ -1,15 +1,14 @@
 ---
-
 - name: Banner Config
   hosts: switches
   gather_facts: no
+
   tasks:
-    - name: Bannerung
-      ios_command:
-      commands:
-      banner: login
-      text: |
-        this is my login banner
-        that contains a multiline
-        string
-      state: present
+    - name: Configure login banner
+      ios_banner:
+        banner: login
+        text: |
+          this is my login banner
+          that contains a multiline
+          string
+        state: present
