@@ -1,0 +1,22 @@
+- Name: test IOS facts
+  hosts: switches
+  tasks:
+    - debug:
+        - var: ansible_facts
+
+    - name: gather IOS facts 02
+      ios_facts:
+          gather_subset: all
+      register: all_subset
+
+    - name: print Subset all 03
+      debug:
+        var: all_subset
+
+    - name: Gather hw
+    ios_facts:
+        gather_subset: Hardware
+    register: hw
+    - name: Print HW
+      debug:
+        var: hw
