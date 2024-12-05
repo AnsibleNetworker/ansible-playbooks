@@ -2,7 +2,7 @@
 - name: Banner Config
   hosts: switches
   gather_facts: no
-  collections: cisco-ios
+  collections: cisco.ios
 
   tasks:
     - name: Configure login banner
