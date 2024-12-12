@@ -1,6 +1,6 @@
 ---
 - name: VLANs erstellen
-  hosts: cisco_switch
+  hosts: switches
   gather_facts: false
   connection: network_cli
 
