@@ -45,12 +45,6 @@
         lines:
           - service password-encryption
 
-    - name: RSA-Schlüssel für SSH generieren
-      cisco.ios.ios_config:
-        lines:
-          - crypto key generate rsa general-keys modulus 2048
-      register: crypto_key_output
-
     - name: SSH Version 2 aktivieren
       cisco.ios.ios_config:
         lines:
@@ -60,6 +54,16 @@
       cisco.ios.ios_config:
         lines:
           - line vty 0 4
+          - password cisco
+          - login local
+          - exec-timeout 15 0
+          - transport input ssh
+        parents: line vty 5 15
+
+    - name: VTY-Leitungen konfigurieren
+      cisco.ios.ios_config:
+        lines:
+          - line vty 5 15
           - password cisco
           - login local
           - exec-timeout 15 0
