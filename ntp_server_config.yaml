@@ -1,0 +1,13 @@
+---
+- name: NTP-Server konfigurieren
+  hosts: switches
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: NTP-Server konfigurieren
+      ios_config:
+        lines:
+          - ntp server 192.168.1.1
+          - ntp server 192.168.1.2 prefer
+        save_when: modified
