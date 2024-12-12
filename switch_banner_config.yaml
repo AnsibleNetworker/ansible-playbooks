@@ -3,7 +3,6 @@
   hosts: switches
   gather_facts: no
   become: yes
-  become_pass: "{{ cisco }}"
   collections: cisco.ios
 
   tasks:
