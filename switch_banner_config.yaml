@@ -9,5 +9,6 @@
       cisco.ios.ios_banner:
         banner: login
         text: |
-          i have ligma
+          Banner konfiguriert
+          am 12.12.2024 um 11:58 Uhr
         state: present
