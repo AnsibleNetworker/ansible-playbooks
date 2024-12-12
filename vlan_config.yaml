@@ -9,8 +9,6 @@
       ios_config:
         lines:
           - vlan 10
-        parents: vlan 10
-        children:
           - name VLAN10
           - exit
           - interface vlan 10
@@ -21,8 +19,6 @@
       ios_config:
         lines:
           - vlan 20
-        parents: vlan 20
-        children:
           - name VLAN20
           - exit
           - interface vlan 20
@@ -33,8 +29,6 @@
       ios_config:
         lines:
           - vlan 30
-        parents: vlan 30
-        children:
           - name VLAN30
           - exit
           - interface vlan 30
