@@ -1,0 +1,13 @@
+---
+- name: Führe ip int brief aus
+  hosts: your_hosts_group
+  gather_facts: false  # Falls du keine zusätzlichen Fakten sammeln möchtest
+
+  tasks:
+    - name: Führe "ip int brief" aus
+      command: ip -o addr show
+      register: ip_output  # Speichert die Ausgabe des Befehls
+
+    - name: Zeige das Ergebnis des Befehls
+      debug:
+        var: ip_output.stdout
