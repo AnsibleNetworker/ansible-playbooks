@@ -1,27 +1,24 @@
 ---
 - name: VLANs erstellen
   hosts: switches
-  gather_facts: false
+  gather_facts: no
   connection: network_cli
 
   tasks:
     - name: Erstelle VLAN 10
-      ios_vlan:
-        vlan_id: 10
-        name: "VLAN10"
-        state: present
-      register: vlan_10
+      ios_command:
+        commands:
+          - vlan 10
+          - name VLAN10
 
     - name: Erstelle VLAN 20
-      ios_vlan:
-        vlan_id: 20
-        name: "VLAN20"
-        state: present
-      register: vlan_20
+      ios_command:
+        commands:
+          - vlan 20
+          - name VLAN20
 
     - name: Erstelle VLAN 30
-      ios_vlan:
-        vlan_id: 30
-        name: "VLAN30"
-        state: present
-      register: vlan_30
+      ios_command:
+        commands:
+          - vlan 30
+          - name VLAN30
