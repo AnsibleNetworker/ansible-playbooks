@@ -1,0 +1,16 @@
+---
+- name: Führe "show running-config" aus und speichere die Ausgabe
+  hosts: switches
+  gather_facts: no
+  connection: network_cli
+  tasks:
+    - name: "Führe show running-config aus"
+      ios_command:
+        commands:
+          - show running-config
+      register: show_run_output
+
+    - name: "Speichern der Ausgabe in einer Datei"
+      copy:
+        content: "{{ show_run_output.stdout[0] }}"
+        dest: "/home/controlnode/sh_run_config.txt"
