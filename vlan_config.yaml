@@ -46,6 +46,10 @@
           - interface vlan 30
           - ip address 192.168.30.1 255.255.255.0
           - no shutdown
+
+    - name: Zuweisen der VLANs auf das Interface
+      ios_config:
+        lines:
           - interface gi1/0/5
           - switchport mode access
           - switchport access vlan 10, 20, 30
