@@ -69,3 +69,9 @@
           - exec-timeout 15 0
           - transport input ssh
         parents: line vty 5 15
+
+    - name: Interfaces "absichern"
+      cisco.ios.ios_config:
+        lines:
+          - interface range gi1/0/5-28
+          - shutdown
