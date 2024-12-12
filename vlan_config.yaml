@@ -1,31 +1,27 @@
 ---
-- name: VLANs auf einem Cisco-Switch erstellen
+- name: VLANs erstellen
   hosts: cisco_switch
-  gather_facts: no
+  gather_facts: false
   connection: network_cli
 
   tasks:
     - name: Erstelle VLAN 10
-      ios_command:
-        commands:
-          - vlan 10
-          - name VLAN10
-      register: result_vlans
+      ios_vlan:
+        vlan_id: 10
+        name: "VLAN10"
+        state: present
+      register: vlan_10
 
     - name: Erstelle VLAN 20
-      ios_command:
-        commands:
-          - vlan 20
-          - name VLAN20
-      register: result_vlans
+      ios_vlan:
+        vlan_id: 20
+        name: "VLAN20"
+        state: present
+      register: vlan_20
 
     - name: Erstelle VLAN 30
-      ios_command:
-        commands:
-          - vlan 30
-          - name VLAN30
-      register: result_vlans
-
-    - name: Zeige VLAN-Erstellung an
-      debug:
-        msg: "{{ result_vlans }}"
+      ios_vlan:
+        vlan_id: 30
+        name: "VLAN30"
+        state: present
+      register: vlan_30
