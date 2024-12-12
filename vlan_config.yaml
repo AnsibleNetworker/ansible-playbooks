@@ -6,19 +6,19 @@
 
   tasks:
     - name: Erstelle VLAN 10
-      ios_command:
-        commands:
+      ios_config:
+        lines:
           - vlan 10
           - name VLAN10
 
     - name: Erstelle VLAN 20
-      ios_command:
-        commands:
+      ios_config:
+        lines:
           - vlan 20
           - name VLAN20
 
     - name: Erstelle VLAN 30
-      ios_command:
-        commands:
+      ios_config:
+        lines:
           - vlan 30
           - name VLAN30
