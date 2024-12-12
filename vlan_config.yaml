@@ -9,7 +9,10 @@
       ios_config:
         lines:
           - vlan 10
+        parents: vlan 10
+        children:
           - name VLAN10
+          - exit
           - interface vlan 10
           - ip address 192.168.10.1 255.255.255.0
           - no shutdown
@@ -18,7 +21,10 @@
       ios_config:
         lines:
           - vlan 20
+        parents: vlan 20
+        children:
           - name VLAN20
+          - exit
           - interface vlan 20
           - ip address 192.168.20.1 255.255.255.0
           - no shutdown
@@ -27,7 +33,10 @@
       ios_config:
         lines:
           - vlan 30
+        parents: vlan 30
+        children:
           - name VLAN30
+          - exit
           - interface vlan 30
           - ip address 192.168.30.1 255.255.255.0
           - no shutdown
