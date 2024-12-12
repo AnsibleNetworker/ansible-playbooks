@@ -2,6 +2,7 @@
 - name: Banner Config
   hosts: switches
   gather_facts: no
+  become: yes
   collections: cisco.ios
 
   tasks:
