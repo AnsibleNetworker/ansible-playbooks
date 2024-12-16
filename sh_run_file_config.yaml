@@ -1,3 +1,4 @@
+---
 - name: Führe "show running-config" aus und speichere die Ausgabe
   hosts: switches
   gather_facts: no
