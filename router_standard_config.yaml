@@ -1,0 +1,72 @@
+- name: Cisco Router Configuration
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+  tasks:
+    - name: "Set hostname"
+      ios_config:
+        lines:
+          - "Router01"
+
+    - name: "Disable DNS lookup"
+      ios_config:
+        lines:
+          - "no ip domain-lookup"
+
+    - name: "Set enable secret"
+      ios_config:
+        lines:
+          - "enable secret cisco"
+
+    - name: "Set domain name"
+      ios_config:
+        lines:
+          - "ip domain-name 8.8.8.8"
+
+    - name: "Create user with password"
+      ios_config:
+        lines:
+          - "username admin secret cisco"
+
+    - name: "Enable service password encryption"
+      ios_config:
+        lines:
+          - "service password-encryption"
+
+    - name: "Generate RSA key pair"
+      ios_config:
+        lines:
+          - "crypto key generate rsa general-keys modulus 1024"
+
+    - name: "Set SSH version to 2"
+      ios_config:
+        lines:
+          - "ip ssh version 2"
+
+    - name: "Configure console line"
+      ios_config:
+        lines:
+          - "line con 0"
+          - "password cisco"
+          - "login local"
+          - "exec-timeout 15 0"
+          - "exit"
+
+    - name: "Configure VTY lines"
+      ios_config:
+        lines:
+          - "line vty 0 4"
+          - "password cisco"
+          - "login local"
+          - "exec-timeout 15 0"
+          - "transport input ssh"
+          - "exit"
+
+    - name: "Configure auxiliary line"
+      ios_config:
+        lines:
+          - "line aux 0"
+          - "password cisco"
+          - "exec-timeout 15 0"
+          - "login local"
+          - "exit"
