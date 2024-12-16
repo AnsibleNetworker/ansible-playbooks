@@ -9,9 +9,7 @@
         commands:
           - show running-config
       register: show_run_output
-
-    - name: "Speichern der Ausgabe in einer Datei auf dem Steuerknoten"
-      local_action:
-        module: copy
+    - name: "Speichern der Ausgabe in einer Datei"
+      copy:
         content: "{{ show_run_output.stdout[0] }}"
         dest: "/home/controlnode/sh_run_config.txt"
