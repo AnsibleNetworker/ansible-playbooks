@@ -15,6 +15,6 @@
     - name: "Speichern der Ausgabe in einer Datei auf dem Steuerknoten"
       copy:
         content: "{{ show_run_output.stdout[0] }}"
-        dest: "/home/controlnode/sh_run_config.txt"
+        dest: "/P:/sh_run_config.txt"
       delegate_to: localhost
       become: false
