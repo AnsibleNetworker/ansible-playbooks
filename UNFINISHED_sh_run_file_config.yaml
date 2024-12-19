@@ -5,8 +5,8 @@
   connection: network_cli
   tasks:
     - name: "Führe show running-config aus"
-      ios_command:
-        commands:
+      ios_config:
+        lines:
           - show running-config
       register: show_run_output
 
