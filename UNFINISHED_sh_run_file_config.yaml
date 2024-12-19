@@ -12,7 +12,7 @@
  
     - name: Speichern der Ausgabe in eine lokale Datei
       delegate_to: localhost
-        module: copy
+      copy:
         content: "{{ running_config_output.stdout[0] }}"
         dest: "./running-configs/{{ inventory_hostname }}_running-config.txt"
 
