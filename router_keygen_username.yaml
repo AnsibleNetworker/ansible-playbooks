@@ -1,0 +1,29 @@
+---
+- name: Cisco Router Configuration
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+  tasks:
+    - name: "Check if user is already configured"
+      ios_command:
+        commands:
+          - "show running-config | include username admin"
+      register: current_user
+
+    - name: "Create user with password if not configured"
+      ios_config:
+        lines:
+          - "username admin secret cisco"
+      when: "'username admin secret cisco' not in current_user.stdout"
+
+    - name: "Check if RSA key pair is already generated"
+      ios_command:
+        commands:
+          - "show running-config | include crypto key generate rsa"
+      register: current_rsa_key
+
+    - name: "Generate RSA key pair if not configured"
+      ios_config:
+        lines:
+          - "crypto key generate rsa general-keys modulus 1024"
+      when: "'crypto key generate rsa general-keys modulus 1024' not in current_rsa_key.stdout"
