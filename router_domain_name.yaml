@@ -4,10 +4,10 @@
   connection: network_cli
   tasks:
    - name: "Get current domain name"
-      ios_command:
-        commands:
-          - "show running-config | include ip domain-name"
-      register: current_domain_name
+     ios_command:
+       commands:
+         - "show running-config | include ip domain-name"
+     register: current_domain_name
 
 #    - name: "Set domain name"
 #      ios_config:
