@@ -14,8 +14,8 @@
 #        lines:
 #          - "ip domain-name 8.8.8.8"
 
-    - name: "Set domain name if not configured"
-      ios_config:
-        lines:
-          - "ip domain-name 8.8.8.8"
-      when: "'ip domain-name 8.8.8.8' not in current_domain_name.stdout"
+     - name: "Set domain name if not configured"
+       ios_config:
+         lines:
+           - "ip domain-name 8.8.8.8"
+       when: "'ip domain-name 8.8.8.8' not in current_domain_name.stdout"
