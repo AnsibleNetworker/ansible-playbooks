@@ -6,10 +6,10 @@
 
   tasks:
     - name: show run
-         ios_command:
-           commands:
-           - show run
-         register: config
+        ios_command:
+          commands:
+          - show run
+        register: config
 
     - name: Ensure the directory exists on the control node
       file:
