@@ -18,3 +18,5 @@
         dest: "/home/controlnode/sh_run_config.txt"
       delegate_to: controlnode
       become: false
+      vars:
+        ansible_network_os: linux
