@@ -14,7 +14,8 @@
       register: show_run_output
 
     - name: "Speichern der Ausgabe in einer Datei auf dem Steuerknoten"
-      copy:
+      local_action:
+        module: copy
         content: "{{ show_run_output.stdout[0] }}"
         dest: "/home/controlnode/sh_run_config.txt"
       delegate_to: controlnode
