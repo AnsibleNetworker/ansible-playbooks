@@ -11,9 +11,20 @@
            - show run
          register: config
 
-   - name: save output to local directory
+    - name: Ensure the directory exists on the control node
+      file:
+        path: "/home/controlnode/show-output"
+        state: directory
+        mode: '0755'
+
+    - name: Save output to local directory
       copy:
-        content: "{{ config.stdout | replace('\\n', '\n') }}" dest: "show-output/{{ inventory_hostname }}.ios"
+        content: "{{ config.stdout | replace('\\n', '\n') }}"
+        dest: "/home/controlnode/show-output/{{ inventory_hostname }}.ios"
+
+#   - name: save output to local directory
+#      copy:
+#        content: "{{ config.stdout | replace('\\n', '\n') }}" dest: "show-output/{{ inventory_hostname }}.ios"
 
 
 #  tasks:
