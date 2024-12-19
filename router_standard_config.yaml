@@ -55,17 +55,17 @@
 
 
 
-    - name: "Check if RSA key pair is already generated"
+    - name: "Check if RSA key pair exists"
       ios_command:
         commands:
-          - "show running-config | include crypto key generate rsa"
-      register: current_rsa_key
+          - "show crypto key mypubkey rsa"
+      register: rsa_key_status
 
     - name: "Generate RSA key pair if not configured"
       ios_config:
         lines:
           - "crypto key generate rsa general-keys modulus 1024"
-      when: "'crypto key generate rsa general-keys modulus 1024' not in current_rsa_key.stdout"
+      when: "'No key' in rsa_key_status.stdout[0]"
 
 
 
