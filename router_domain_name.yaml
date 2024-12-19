@@ -1,5 +1,8 @@
-
-
+- name: Cisco Router Configuration
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+  tasks:
    - name: "Get current domain name"
       ios_command:
         commands:
