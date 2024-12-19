@@ -19,4 +19,4 @@
       delegate_to: controlnode
       become: false
       vars:
-        ansible_network_os: kali
+        ansible_network_os: linux
