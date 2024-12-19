@@ -3,6 +3,8 @@
   hosts: switches
   gather_facts: false
   connection: local
+  collections:
+    - cisco.ios
 
   tasks:
     - name: show run
