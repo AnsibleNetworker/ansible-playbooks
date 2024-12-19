@@ -7,13 +7,6 @@
     - cisco.ios
   tasks:
   
-  - name: Sicherstellen, dass das Verzeichnis auf dem Steuerknoten existiert
-    file:
-      path: "/home/controlnode"
-      state: directory
-      mode: '0755'
-    delegate_to: localhost
-  
     - name: "Führe show running-config aus"
       ios_command:
         commands:
