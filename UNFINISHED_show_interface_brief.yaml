@@ -2,9 +2,7 @@
 - name: Führe ip int brief aus
   hosts: switches
   gather_facts: false
-  connection: local
-  collections:
-    - cisco.ios
+  connection: network_cli
 
   tasks:
     - name: show run
