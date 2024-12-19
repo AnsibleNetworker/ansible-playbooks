@@ -3,7 +3,8 @@
   hosts: switches
   gather_facts: no
   connection: network_cli
-  collections: cisco.ios
+  collections: 
+  - cisco.ios
   tasks:
     - name: "Führe show running-config aus"
       ios_config:
