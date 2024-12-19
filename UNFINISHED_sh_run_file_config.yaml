@@ -6,7 +6,6 @@
   collections:
     - cisco.ios
   tasks:
-  
     - name: "Führe show running-config aus"
       ios_command:
         commands:
@@ -14,8 +13,7 @@
       register: show_run_output
 
     - name: "Speichern der Ausgabe in einer Datei auf dem Steuerknoten"
-      local_action:
-        module: copy
+      copy:
         content: "{{ show_run_output.stdout[0] }}"
         dest: "/home/controlnode/sh_run_config.txt"
       delegate_to: localhost
