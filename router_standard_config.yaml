@@ -77,7 +77,7 @@
     - name: Interfaces "absichern"
       ios_config:
         lines:
-          - "interface range FastEthernet1-4"
+          - "interface range Fa1-4"
           - "shutdown"
 
     - name: "Configure console line"
