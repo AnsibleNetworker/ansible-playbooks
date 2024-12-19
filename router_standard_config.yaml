@@ -75,7 +75,7 @@
           - "ip ssh version 2"
 
     - name: Interfaces "absichern"
-      cisco.ios.ios_config:
+      ios_config:
         lines:
           - "interface range FastEthernet 1 - 4"
           - "shutdown"
