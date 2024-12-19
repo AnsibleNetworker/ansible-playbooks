@@ -6,7 +6,7 @@
     - name: "Set hostname"
       ios_config:
         lines:
-          - "Router01"
+          - "hostname Router01"
 
     - name: "Disable DNS lookup"
       ios_config:
