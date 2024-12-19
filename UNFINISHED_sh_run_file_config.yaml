@@ -1,6 +1,6 @@
 ---
 - name: Führe "show running-config" aus und speichere die Ausgabe
-  hosts: switches
+  hosts: Switch01
   gather_facts: no
   connection: network_cli
   collections: 
