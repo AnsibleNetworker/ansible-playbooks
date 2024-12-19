@@ -3,13 +3,13 @@
   hosts: Switch01
   gather_facts: no
   connection: network_cli
-  collections: 
+  collections:
     - cisco.ios
   tasks:
     - name: "Führe show running-config aus"
-      ios_config:
-        lines:
-          - show running-config
+      ios_command:
+        commands:
+          - "show running-config"
       register: show_run_output
 
     - name: "Speichern der Ausgabe in einer Datei auf dem Steuerknoten"
