@@ -1,6 +1,6 @@
 ---
 - name: Führe ip int brief aus
-  hosts: your_hosts_group
+  hosts: switches
   gather_facts: false  # Falls du keine zusätzlichen Fakten sammeln möchtest
 
   tasks:
