@@ -1,6 +1,6 @@
 ---
 - name: NTP-Server konfigurieren
-  hosts: switches, router
+  hosts: switches, routers
   gather_facts: no
   connection: network_cli
 
