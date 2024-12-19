@@ -74,6 +74,12 @@
         lines:
           - "ip ssh version 2"
 
+    - name: Interfaces "absichern"
+      cisco.ios.ios_config:
+        lines:
+          - interface range f1-4
+          - shutdown
+
     - name: "Configure console line"
       ios_config:
         lines:
