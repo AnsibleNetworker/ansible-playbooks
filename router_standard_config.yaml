@@ -30,7 +30,7 @@
       ios_config:
         lines:
           - "ip domain-name 8.8.8.8"
-      when: "'ip domain-name 8.8.8.8' not in current_domain_name.stdout"
+      when: "'ip domain name 8.8.8.8' not in current_domain_name.stdout"
 
 
 
