@@ -2,7 +2,7 @@
 - name: Führe ip int brief aus
   hosts: switches
   gather_facts: false
-  connection: network_cli
+  connection: local
 
   tasks:
     - name: show run
