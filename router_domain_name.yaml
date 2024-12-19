@@ -14,7 +14,7 @@
 #        lines:
 #          - "ip domain-name 8.8.8.8"
 
-    - name: Set domain name if not configured
+    - name: "Set domain name if not configured"
       ios_config:
         lines:
           - "ip domain-name 8.8.8.8"
