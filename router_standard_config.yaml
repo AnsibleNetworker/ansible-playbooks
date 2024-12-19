@@ -18,10 +18,22 @@
         lines:
           - "enable secret cisco"
 
-    - name: "Set domain name"
-      ios_config:
-        lines:
-          - "ip domain-name 8.8.8.8"
+   - name: "Get current domain name"
+      ios_command:
+        commands:
+          - "show running-config | include ip domain-name"
+      register: current_domain_name
+
+#    - name: "Set domain name"
+#      ios_config:
+#        lines:
+#          - "ip domain-name 8.8.8.8"
+
+#    - name: Set domain name if not configured
+#      ios_config:
+#        lines:
+#          - "ip domain-name example.com"
+#      when: "'ip domain-name example.com' not in current_domain_name.stdout"
 
     - name: "Create user with password"
       ios_config:
@@ -33,15 +45,15 @@
         lines:
           - "service password-encryption"
 
-    - name: "Generate RSA key pair"
-      ios_config:
-        lines:
-          - "crypto key generate rsa general-keys modulus 1024"
+#    - name: "Generate RSA key pair"
+#      ios_config:
+#        lines:
+#          - "crypto key generate rsa general-keys modulus 1024"
 
-    - name: "Set SSH version to 2"
-      ios_config:
-        lines:
-          - "ip ssh version 2"
+#    - name: "Set SSH version to 2"
+#      ios_config:
+#        lines:
+#          - "ip ssh version 2"
 
     - name: "Configure console line"
       ios_config:
