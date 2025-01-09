@@ -12,9 +12,8 @@
  
     - name: Speichern der Ausgabe in eine lokale Datei
       delegate_to: localhost
-      ansible_become_pass: "kali"
       copy:
         content: "{{ running_config_output.stdout[0] }}"
         dest: "/home/controlnode/sh_run_config.txt"
-
+      ansible_become_pass: "kali"
  
