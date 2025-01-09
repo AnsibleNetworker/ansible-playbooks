@@ -26,7 +26,7 @@
     - name: Git Add - Stage the file
       delegate_to: localhost
       command:
-        cmd: "git add running-config.txt"
+        cmd: "git add ."
       args:
         chdir: "P:/awxtower/ansible-playbooks"
       become: no  # No sudo needed
