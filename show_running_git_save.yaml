@@ -14,7 +14,7 @@
       delegate_to: localhost
       copy:
         content: "{{ running_config_output.stdout[0] }}"
-        dest: "P:\\awxtower\\ansible-playbooks\\running-config.txt"
+        dest: "P:/awxtower/ansible-playbooks/running-config.txt"
       become: no  # Prevent any use of sudo on Windows
 
     - name: Git Add - Stage the file
@@ -22,7 +22,7 @@
       command:
         cmd: "git add running-config.txt"
       args:
-        chdir: "P:\\awxtower\\ansible-playbooks"
+        chdir: "P:/awxtower/ansible-playbooks"
       become: no  # No sudo needed
 
     - name: Git Commit - Commit the changes
@@ -30,7 +30,7 @@
       command:
         cmd: "git commit -m 'Updated running-config'"
       args:
-        chdir: "P:\\awxtower\\ansible-playbooks"
+        chdir: "P:/awxtower/ansible-playbooks/"
       become: no  # No sudo needed
 
     - name: Git Push - Push to the remote repository
@@ -38,5 +38,5 @@
       command:
         cmd: "git push origin main"  # Adjust 'main' if your branch is different
       args:
-        chdir: "P:\\awxtower\\ansible-playbooks"
+        chdir: "P:/awxtower/ansible-playbooks"
       become: no  # No sudo needed
