@@ -1,0 +1,11 @@
+---
+- name: Speichern der Running-Config eines Cisco-Geräts in eine Textdatei
+  hosts: Switch01
+  gather_facts: no
+  tasks:
+
+    - name: Ausführen des "show running-config"-Befehls
+      ios_command:
+        commands:
+          - show running-config
+      register: running_config_output
