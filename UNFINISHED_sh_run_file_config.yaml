@@ -15,5 +15,6 @@
       copy:
         content: "{{ running_config_output.stdout[0] }}"
         dest: "/home/controlnode/sh_run_config.txt"
-      ansible_become_pass: "kali"
+      vars:
+        ansible_become_pass: "kali"
  
