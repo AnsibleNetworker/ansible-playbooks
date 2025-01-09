@@ -1,0 +1,34 @@
+---
+- name: Execute "show run" and commit to Git repository
+  hosts: Switch01
+  gather_facts: no
+  tasks:
+
+    - name: Run "show running-config" on the switch
+      ansible.netcommon.cli_command:
+        command: show running-config
+      register: running_config_output
+
+    - name: Save running-config to a file
+      copy:
+        content: "{{ running_config_output.stdout }}"
+        dest: P:/awxtower/ansible-playbooks/running-config.txt
+        
+    - name: Change to the Git repository directory
+      ansible.builtin.command:
+        cmd: git add running-config.txt
+        chdir: P:/awxtower/ansible-playbooks
+      register: git_add
+      ignore_errors: yes
+
+    - name: Commit the new config to the Git repository
+      ansible.builtin.command:
+        cmd: git commit -m "Updated running config for {{ inventory_hostname }} on {{ ansible_date_time.date }}"
+        chdir: P:/awxtower/ansible-playbooks
+      when: git_add is succeeded
+
+    - name: Push changes to the remote repository
+      ansible.builtin.command:
+        cmd: git push origin main
+        chdir: P:/awxtower/ansible-playbooks
+      ignore_errors: yes
