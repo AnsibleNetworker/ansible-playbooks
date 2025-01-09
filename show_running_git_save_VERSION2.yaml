@@ -13,14 +13,14 @@
       delegate_to: localhost
       copy:
         content: "{{ running_config_output.stdout }}"
-        dest: P:\\awxtower\\ansible-playbooks\\running-config.txt  # Update this path as needed
+        dest: P:/awxtower/ansible-playbooks/running-config.txt  # Update this path as needed
       become: no
 
     - name: Change to the Git repository directory on the local computer
       delegate_to: localhost
       ansible.builtin.command:
         cmd: git add running-config.txt
-        chdir: P:\\awxtower\\ansible-playbooks\\  # Update this path to your Git repository
+        chdir: P:/awxtower/ansible-playbooks/  # Update this path to your Git repository
       register: git_add
       ignore_errors: yes
       become: no
@@ -29,7 +29,7 @@
       delegate_to: localhost
       ansible.builtin.command:
         cmd: git commit -m "Updated running config for {{ inventory_hostname }} on {{ ansible_date_time.date }}"
-        chdir: P:\\awxtower\\ansible-playbooks\\  # Update this path to your Git repository
+        chdir: P:/awxtower/ansible-playbooks/  # Update this path to your Git repository
       when: git_add is succeeded
       become: no
 
@@ -37,6 +37,6 @@
       delegate_to: localhost
       ansible.builtin.command:
         cmd: git push origin main
-        chdir: P:\\awxtower\\ansible-playbooks\\  # Update this path to your Git repository
+        chdir: P:/awxtower/ansible-playbooks/  # Update this path to your Git repository
       ignore_errors: yes
       become: no
