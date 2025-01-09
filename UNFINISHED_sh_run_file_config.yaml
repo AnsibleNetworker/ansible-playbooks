@@ -14,6 +14,6 @@
       delegate_to: localhost
       copy:
         content: "{{ running_config_output.stdout[0] }}"
-        dest: "./running-configs/{{ inventory_hostname }}_running-config.txt"
+        dest: "/home/controlnode/sh_run_config.txt"
 
  
