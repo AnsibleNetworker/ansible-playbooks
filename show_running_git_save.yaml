@@ -10,6 +10,12 @@
           - show running-config
       register: running_config_output
 
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: P:/awxtower/ansible-playbooks
+        state: directory
+        mode: '0755'
+
     - name: Speichern der Ausgabe in eine lokale Datei auf Windows
       delegate_to: localhost
       copy:
