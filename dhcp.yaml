@@ -18,4 +18,4 @@
       - 8.8.8.8
       - 1.1.1.1
   roles:
-    - role: ansible-role-dhcp-server
+    - role: /home/controlnode/ansible-role-dhcp-server
