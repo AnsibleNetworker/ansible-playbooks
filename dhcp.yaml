@@ -1,0 +1,6 @@
+---
+- name: Set up DHCP server
+  hosts: DHCP-Server
+  become: yes
+  roles:
+    - role: ansible-role-dhcp-server
