@@ -9,5 +9,9 @@
       cisco.ios.ios_banner:
         banner: login
         text: |
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          #########################################
+          #                                       #
+          #                BANNER                 #
+          #                                       #
+          #########################################
         state: present
