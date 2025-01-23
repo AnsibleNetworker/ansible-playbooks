@@ -1,6 +1,6 @@
 ---
 - name: Banner Config
-  hosts: Switch02
+  hosts: Switch01
   gather_facts: no
   collections: cisco.ios
 
@@ -9,6 +9,9 @@
       cisco.ios.ios_banner:
         banner: login
         text: |
-          Banner konfiguriert
-          am 23.01.2024 um 11:58 Uhr
+          #########################################
+          #                                       #
+          #                BANNER                 #
+          #                                       #
+          #########################################
         state: present
