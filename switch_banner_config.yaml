@@ -1,6 +1,6 @@
 ---
 - name: Banner Config
-  hosts: Switch01
+  hosts: switches
   gather_facts: no
   collections: cisco.ios
 
