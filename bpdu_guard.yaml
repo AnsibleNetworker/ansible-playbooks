@@ -1,0 +1,29 @@
+---
+- name: Configure BPDU Guard on Cisco Switch
+  hosts: cisco_switches
+  gather_facts: no
+  vars:
+    # Globale BPDU Guard Aktivierung (wirkt sich auf alle PortFast-Ports aus)
+    bpdu_guard_global: true
+    # ODER Interface-spezifische Konfiguration
+    interfaces:
+      - name: GigabitEthernet0/1
+        bpdu_guard: enable
+      - name: GigabitEthernet0/2
+        bpdu_guard: enable
+
+  tasks:
+    - name: Global BPDU Guard aktivieren
+      cisco.ios.ios_config:
+        parents: "spanning-tree"
+        lines:
+          - "portfast bpduguard default"
+      when: bpdu_guard_global
+
+    - name: Interface-spezifische BPDU Guard Konfiguration
+      cisco.ios.ios_config:
+        parents: "interface {{ item.name }}"
+        lines:
+          - "spanning-tree bpduguard {{ item.bpdu_guard }}"
+      loop: "{{ interfaces }}"
+      when: interfaces is defined
