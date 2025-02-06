@@ -1,20 +1,16 @@
 ---
-- name: Speichern der Running-Config eines Cisco-Geräts in eine Textdatei
-  hosts: Switch01
+- name: Save show run output to a file
+  hosts: network_devices
   gather_facts: no
   tasks:
-
-    - name: Ausführen des "show running-config"-Befehls
-      ios_command:
+    - name: Execute show run command
+      cisco.ios.ios_command:
         commands:
-          - show running-config
-      register: running_config_output
- 
-    - name: Speichern der Ausgabe in eine lokale Datei
-      delegate_to: localhost
+          - show run
+      register: show_run_output
+
+    - name: Save show run output to a file
       copy:
-        content: "{{ running_config_output.stdout[0] }}"
-        dest: "/home/controlnode/sh_run_config.txt"
-      vars:
-        ansible_become_pass: "kali"
- 
+        content: "{{ show_run_output.stdout[0] }}"
+        dest: "/path/to/save/show_run_output.txt"
+      delegate_to: localhost
