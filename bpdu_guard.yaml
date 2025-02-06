@@ -1,6 +1,6 @@
 ---
 - name: Configure BPDU Guard on Cisco Switch
-  hosts: cisco_switches
+  hosts: switches
   gather_facts: no
   vars:
     # Globale BPDU Guard Aktivierung (wirkt sich auf alle PortFast-Ports aus)
