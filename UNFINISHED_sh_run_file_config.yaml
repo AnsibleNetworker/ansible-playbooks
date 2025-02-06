@@ -1,6 +1,6 @@
 ---
 - name: Save show run output to a file
-  hosts: network_devices
+  hosts: Switch01
   gather_facts: no
   tasks:
     - name: Execute show run command
