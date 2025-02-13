@@ -5,8 +5,8 @@
 
   # Variablen (können auch im Inventar oder über CLI überschrieben werden)
   vars:
-    tftp_server: "192.168.1.100"  # IP des TFTP-Servers
-    config_filename: "{{ inventory_hostname }}_config.cfg"  # Dateiname auf dem TFTP-Server
+    tftp_server: "192.168.100.132"  # IP des TFTP-Servers
+    config_filename: "switch_show_run.txt"  # Dateiname auf dem TFTP-Server
 
   tasks:
     - name: Backup der Running-Config zum TFTP-Server
