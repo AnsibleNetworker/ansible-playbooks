@@ -1,6 +1,6 @@
 ---
 - name: Backup Cisco Switch Configuration to TFTP
-  hosts: cisco_switches  # Stelle sicher, dass diese Gruppe im Inventar definiert ist
+  hosts: Switch02
   gather_facts: no  # Beschleunigt die Ausführung, da keine Fakten gesammelt werden
 
   # Variablen (können auch im Inventar oder über CLI überschrieben werden)
