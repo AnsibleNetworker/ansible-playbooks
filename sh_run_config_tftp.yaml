@@ -1,0 +1,25 @@
+---
+- name: Backup Cisco Switch Configuration to TFTP
+  hosts: cisco_switches  # Stelle sicher, dass diese Gruppe im Inventar definiert ist
+  gather_facts: no  # Beschleunigt die Ausführung, da keine Fakten gesammelt werden
+
+  # Variablen (können auch im Inventar oder über CLI überschrieben werden)
+  vars:
+    tftp_server: "192.168.1.100"  # IP des TFTP-Servers
+    config_filename: "{{ inventory_hostname }}_config.cfg"  # Dateiname auf dem TFTP-Server
+
+  tasks:
+    - name: Backup der Running-Config zum TFTP-Server
+      cisco.ios.ios_command:
+        commands:
+          - "copy running-config tftp://{{ tftp_server }}/{{ config_filename }}"
+        # Warte auf Erfolgsmeldung (abhängig von der Switch-Ausgabe)
+        wait_for:
+          - result[0] contains "OK"  # Passe dies an die tatsächliche Switch-Ausgabe an
+      register: backup_result
+      # Zeitüberschreitung für den Kopiervorgang (in Sekunden)
+      timeout: 30
+
+    - name: Ergebnis anzeigen
+      ansible.builtin.debug:
+        var: backup_result
