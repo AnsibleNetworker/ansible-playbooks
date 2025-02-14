@@ -10,7 +10,7 @@
   tasks:
     - name: Generate a timestamp
       set_fact:
-        timestamp: "{{ now().strftime('%Y%m%dT%H%M%S') }}"
+        timestamp: "{{ now().strftime('%Y%m%d') }}"
 
     - name: Backup der Running-Config zum TFTP-Server
       cisco.ios.ios_command:
