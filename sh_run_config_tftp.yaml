@@ -5,7 +5,7 @@
 
   vars:
     tftp_server: "192.168.100.132"
-    config_filename: "backups/switch_show_run.txt"
+    config_filename: "backups/switch_show_run.txt"  # Relative path from TFTP root
 
   tasks:
     - name: Backup der Running-Config zum TFTP-Server
@@ -15,13 +15,11 @@
             prompt:
               - "Address or name of remote host"  # Prompt for TFTP server
               - "Destination filename"  # Prompt for filename
-              - "Write file"  # Confirmation prompt
             answer:
               - "\n"  # Confirm TFTP server (press Enter)
               - "\n"  # Accept default filename (press Enter)
-              - "\n"  # Confirm write (press Enter)
         wait_for:
-          - "result[0] contains 'OK' or 'successful'"  # Adjust based on actual output
+          - "result[0] contains 'bytes copied in'"  # Adjust based on actual output
       register: backup_result
       timeout: 60  # Increase timeout to 60 seconds
 
