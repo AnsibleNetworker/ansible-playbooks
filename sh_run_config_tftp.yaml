@@ -5,12 +5,12 @@
 
   vars:
     tftp_server: "192.168.100.132"
-    config_filename: "backups/switch_show_run_{{ inventory_hostname }}_{{ ansible_date_time.iso8601_basic }}.txt"
+    config_filename: "backups/switch_show_run_{{ inventory_hostname }}_{{ timestamp }}.txt"
 
   tasks:
-    - name: Ensure ansible_date_time is defined
+    - name: Generate a timestamp
       set_fact:
-        ansible_date_time: "{{ ansible_date_time | default(now().strftime('%Y%m%dT%H%M%S')) }}"
+        timestamp: "{{ now().strftime('%Y%m%dT%H%M%S') }}"
 
     - name: Backup der Running-Config zum TFTP-Server
       cisco.ios.ios_command:
