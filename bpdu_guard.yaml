@@ -13,11 +13,16 @@
         bpdu_guard: enable
 
   tasks:
+    - name: Aktiviere globales PortFast
+      cisco.ios.ios_config:
+        lines:
+          - "spanning-tree portfast default"
+      when: bpdu_guard_global
+
     - name: Global BPDU Guard aktivieren
       cisco.ios.ios_config:
-        parents: "spanning-tree"
         lines:
-          - "portfast bpduguard default"
+          - "spanning-tree portfast bpduguard default"
       when: bpdu_guard_global
 
     - name: Interface-spezifische BPDU Guard Konfiguration
@@ -27,3 +32,14 @@
           - "spanning-tree bpduguard {{ item.bpdu_guard }}"
       loop: "{{ interfaces }}"
       when: interfaces is defined
+
+    - name: Zeige aktuelle Spanning-Tree-Konfiguration
+      cisco.ios.ios_command:
+        commands:
+          - show spanning-tree
+      register: spanning_tree_config
+      ignore_errors: yes
+
+    - name: Debug Spanning-Tree-Konfiguration
+      debug:
+        var: spanning_tree_config.stdout_lines
