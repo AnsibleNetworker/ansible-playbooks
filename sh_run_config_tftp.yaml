@@ -30,3 +30,4 @@
     - name: Ergebnis anzeigen
       ansible.builtin.debug:
         var: backup_result
+ 
