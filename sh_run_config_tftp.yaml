@@ -15,7 +15,7 @@
 
     - name: Deleting the previous file
       ansible.builtin.shell:
-        cmd: "rm -f {{ tftp_root_path }}/backups/switch_show_run_{{ inventory_hostname }}_*.txt"
+        cmd: "sudo rm -f {{ tftp_root_path }}/backups/switch_show_run_{{ inventory_hostname }}_*.txt"
       delegate_to: "{{ tftp_server }}"
       become: yes
       async: 0
