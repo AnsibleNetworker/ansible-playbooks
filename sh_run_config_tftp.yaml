@@ -7,12 +7,14 @@
   tasks:
     - name: Generate a timestamp
       set_fact:
-        timestamp: "{{ now().strftime('%Y%m%d_%H%M%S') }}"  # Beispiel: 20240327_083045
+        timestamp: "{{ now().strftime('%Y%m%d_%H%M%S') }}"
 
     - name: Lösche alte Backups für diesen Switch auf dem TFTP-Server
       ansible.builtin.shell: |
         rm -f /var/lib/tftpboot/backups/switch_show_run_{{ inventory_hostname }}_*.txt
       delegate_to: "{{ tftp_server }}"
+      remote_user: tftp-user  # <--- Benutzer mit SSH-Zugriff
+      become: yes             # <--- Optional: Falls sudo benötigt wird
       ignore_errors: yes
 
     - name: Backup der Running-Config zum TFTP-Server
