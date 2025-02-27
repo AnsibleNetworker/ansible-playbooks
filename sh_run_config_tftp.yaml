@@ -19,7 +19,6 @@
       async: 0
       poll: 0
       ignore_errors: yes
-      when: (inventory_hostname | lower) is match("switch01")
       
     - name: Backup der Running-Config zum TFTP-Server
       cisco.ios.ios_command:
