@@ -1,6 +1,6 @@
 ---
 - name: VLANs mit IPs erstellen
-  hosts: switches
+  hosts: Switch01
   gather_facts: no
   connection: network_cli
 
