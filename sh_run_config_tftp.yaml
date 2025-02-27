@@ -13,9 +13,13 @@
         timestamp: "{{ now().strftime('%Y%m%d') }}" # wenn man stunden und minuten will, muss man halt noch dazuschreiben, sonst nur tag monat jahr
 
     - name: Deleting the previous file
-      cisco.ios.ios_command:
-        commands:
-          - command: "sudo rm switch_show_run_Switch01_*.txt"
+      ansible.builtin.shell:
+        cmd: "rm -f {{ tftp_root_path }}/backups/switch_show_run_{{ inventory_hostname }}_*.txt"
+      delegate_to: "{{ tftp_server }}"
+      become: yes
+      async: 0
+      poll: 0
+      ignore_errors: yes
 
     - name: Backup der Running-Config zum TFTP-Server
       cisco.ios.ios_command:
