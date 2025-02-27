@@ -12,13 +12,13 @@
         timestamp: "{{ now().strftime('%Y%m%d') }}"  # Nur Tag, Monat, Jahr
 
     - name: Prüfen, ob eine alte Datei existiert
-      delegate_to: localhost  # Auf dem Ansible-Controller ausführen
+      delegate_to: tftp_server  # Auf dem Ansible-Controller ausführen
       ansible.builtin.stat:
         path: "{{ tftp_directory }}/switch_show_run_{{ inventory_hostname }}_*.txt"
       register: old_file_check
 
     - name: Löschen der alten Datei, falls vorhanden
-      delegate_to: localhost  # Auf dem Ansible-Controller ausführen
+      delegate_to: tftp_server  # Auf dem Ansible-Controller ausführen
       ansible.builtin.file:
         path: "{{ item }}"
         state: absent
