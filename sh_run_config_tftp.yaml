@@ -5,7 +5,7 @@
 
   vars:
     tftp_server: "192.168.100.132"
-    tftp_root_path: "/var/tftpboot"
+    tftp_directory: "/var/lib/tftpboot/backups"
     config_filename: "backups/switch_show_run_{{ inventory_hostname }}_{{ timestamp }}.txt"  # Fixed filename for the same switch
 
   tasks:
@@ -13,10 +13,19 @@
       set_fact:
         timestamp: "{{ now().strftime('%Y%m%d') }}" # wenn man stunden und minuten will, muss man halt noch dazuschreiben, sonst nur tag monat jahr
 
-    - name: Deleting the previous file
-      shell: rm /var/tftpboot/backups/switch_show_run_{{ inventory_hostname }}_*.txt
-        # path: /var/tftpboot/backups/switch_show_run{{ inventory_hostname }}_*.txt
-        # state: absent 
+    - name: Prüfen, ob eine alte Datei existiert
+      delegate_to: localhost  # Auf dem Ansible-Controller ausführen
+      ansible.builtin.stat:
+        path: "{{ tftp_directory }}/switch_show_run_{{ inventory_hostname }}_*.txt"
+      register: old_file_check
+
+    - name: Löschen der alten Datei, falls vorhanden
+      delegate_to: localhost  # Auf dem Ansible-Controller ausführen
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      when: old_file_check.stat.exists
+      loop: "{{ lookup('fileglob', tftp_directory + '/switch_show_run_' + inventory_hostname + '_*.txt').split(',') }}
 
     - name: Backup der Running-Config zum TFTP-Server
       cisco.ios.ios_command:
