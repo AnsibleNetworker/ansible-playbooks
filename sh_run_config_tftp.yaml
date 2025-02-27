@@ -4,25 +4,23 @@
   gather_facts: yes
   vars:
     tftp_server: "192.168.100.132"
-    tftp_root_path: "/var/tftpboot"  # Stellen Sie sicher, dass dieser Pfad korrekt ist
+    tftp_root_path: "/var/tftpboot"  # Passen Sie diesen Pfad bei Bedarf an
     config_filename: "backups/switch_show_run_{{ inventory_hostname }}_{{ timestamp }}.txt"
   tasks:
-    - name: Generate a timestamp (nur Datum)
+    - name: Generate a timestamp
       set_fact:
         timestamp: "{{ '%Y%m%d' | strftime }}"
-
-    - name: Debug: Zeige zu löschenden Pfad
-      ansible.builtin.debug:
-        var: "{{ tftp_root_path }}/{{ config_filename | regex_replace(timestamp, '.*') }}*.txt"
-
-    - name: Lösche ALLE Backups für diesen Switch auf dem TFTP-Server
+        
+    - name: Lösche alte Backups für diesen Switch auf dem TFTP-Server
       ansible.builtin.shell:
-        cmd: "find {{ tftp_root_path }} -type f -name 'switch_show_run_{{ inventory_hostname|lower }}_*.txt' -delete"
+        cmd: "rm -f {{ tftp_root_path }}/backups/switch_show_run_{{ inventory_hostname }}_*.txt"
       delegate_to: "{{ tftp_server }}"
       become: yes
+      async: 0
+      poll: 0
       ignore_errors: yes
-      when: inventory_hostname|lower == "switch01"
-
+      when: (inventory_hostname | lower) is match("switch01")
+      
     - name: Backup der Running-Config zum TFTP-Server
       cisco.ios.ios_command:
         commands:
@@ -34,10 +32,10 @@
               - "\n"
               - "\n"
         wait_for:
-          - "result[0].stdout contains 'bytes copied in'"
+          - "result[0] contains 'bytes copied in'"
       register: backup_result
       timeout: 60
-
+      
     - name: Ergebnis anzeigen
       ansible.builtin.debug:
         var: backup_result
