@@ -2,35 +2,23 @@
 - name: Backup Cisco Switch Configuration to TFTP
   hosts: Switch01
   gather_facts: yes
+
   vars:
     tftp_server: "192.168.100.132"
-    tftp_root_path: "/var/tftpboot"
-    ssh_user: "your_ssh_username"          # <--- AKTUALISIEREN!
-    ssh_key_file: "/path/to/private_key"   # <--- AKTUALISIEREN! (Pfad mit Anführungszeichen!)
-    config_filename: "backups/switch_show_run_{{ inventory_hostname }}_{{ timestamp }}.txt"
+    config_filename: "backups/switch_show_run_{{ inventory_hostname }}_{{ timestamp }}.txt"  # Fixed filename for the same switch
+
   tasks:
-    - name: Generate timestamp
+    - name: Generate a timestamp
       set_fact:
-        timestamp: "{{ '%Y%m%d' | strftime }}"
+        timestamp: "{{ now().strftime('%Y%m%d') }}"
+        timestamp: "{{ now().strftime('%Y%m%d') }}" # wenn man stunden und minuten will, muss man halt noch dazuschreiben, sonst nur tag monat jahr
 
-    - name: Set deletion pattern
-      set_fact:
-        delete_pattern: "{{ tftp_root_path }}/backups/switch_show_run_{{ inventory_hostname | lower }}_*.txt"
+    - name: Deleting the previous file
+      cisco.ios.ios_command:
+        commands:
+          - command: "sudo rm switch_show_run_Switch01_*.txt"
 
-    - name: Delete old backups on TFTP Server
-      ansible.builtin.shell:
-        cmd: "rm -f {{ delete_pattern }}"
-      delegate_to: "{{ tftp_server }}"
-      become: yes
-      become_user: root
-      vars:
-        ansible_user: "{{ ssh_user }}"
-        ansible_become: yes
-        ansible_ssh_private_key_file: "{{ ssh_key_file | default('') }}"
-        ansible_password: "{{ tftp_server_password | default('') }}"  # Nur wenn Passwort erforderlich
-      ignore_errors: yes
-
-    - name: Backup Running Config to TFTP
+    - name: Backup der Running-Config zum TFTP-Server
       cisco.ios.ios_command:
         commands:
           - command: "copy running-config tftp://{{ tftp_server }}/{{ config_filename }}"
@@ -41,10 +29,10 @@
               - "\n"
               - "\n"
         wait_for:
-          - "result[0].stdout contains 'bytes copied in'"
+          - "result[0] contains 'bytes copied in'"
       register: backup_result
       timeout: 60
 
-    - name: Show result
+    - name: Ergebnis anzeigen
       ansible.builtin.debug:
         var: backup_result
