@@ -5,6 +5,7 @@
 
   vars:
     tftp_server: "192.168.100.132"
+    tftp_root_path: "/var/tftpboot"
     config_filename: "backups/switch_show_run_{{ inventory_hostname }}_{{ timestamp }}.txt"  # Fixed filename for the same switch
 
   tasks:
