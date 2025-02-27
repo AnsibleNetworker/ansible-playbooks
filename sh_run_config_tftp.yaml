@@ -2,15 +2,24 @@
 - name: Backup Cisco Switch Configuration to TFTP
   hosts: Switch01
   gather_facts: yes
-
   vars:
     tftp_server: "192.168.100.132"
-    config_filename: "backups/switch_show_run_{{ inventory_hostname }}_{{ timestamp }}.txt"  # Fixed filename for the same switch
-
+    tftp_root_path: "/var/tftpboot"  # Anpassen auf Ihre TFTP-Root-Verzeichnispfad
+    config_filename: "backups/switch_show_run_{{ inventory_hostname }}_{{ timestamp }}.txt"
   tasks:
     - name: Generate a timestamp
       set_fact:
-        timestamp: "{{ now().strftime('%Y%m%d') }}" # wenn man stunden und minuten will, muss man halt noch dazuschreiben, sonst nur tag monat jahr
+        timestamp: "{{ '%Y%m%d' | strftime }}"
+
+    - name: Lösche alte Backups für diesen Switch auf dem TFTP-Server
+      ansible.builtin.shell:
+        cmd: "rm -f {{ tftp_root_path }}/{{ config_filename | regex_replace(timestamp, '.*') }}"
+      delegate_to: "{{ tftp_server }}"
+      become: yes
+      async: 0
+      poll: 0
+      ignore_errors: yes
+      when: inventory_hostname is match("switch01")  # Optional: Einschränken auf bestimmte Hosts
 
     - name: Backup der Running-Config zum TFTP-Server
       cisco.ios.ios_command:
