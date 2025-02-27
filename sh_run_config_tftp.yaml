@@ -1,21 +1,20 @@
 ---
-- name: Backup Cisco Switch Configuration to TFTP
+- name: Backup Cisco Switch Configuration to TFTP (With Timestamp and Cleanup)
   hosts: Switch01
-  gather_facts: yes
+  gather_facts: no  # Not needed for this playbook
 
   vars:
     tftp_server: "192.168.100.132"
-    config_filename: "backups/switch_show_run_{{ inventory_hostname }}_{{ timestamp }}.txt"  # Fixed filename for the same switch
+    backup_dir: "/path/to/tftp/backups"  # Update this to your TFTP server's backup directory path
+    keep_backups: 5  # Number of backups to retain (adjust as needed)
+    config_filename: "switch_show_run_{{ inventory_hostname }}_{{ now().strftime('%Y%m%dT%H%M%S') }}.txt"
 
   tasks:
-    - name: Generate a timestamp
-      set_fact:
-        timestamp: "{{ now().strftime('%Y%m%d') }}" # wenn man stunden und minuten will, muss man halt noch dazuschreiben, sonst nur tag monat jahr
-
+    # Task 1: Backup the running config to TFTP with a timestamp
     - name: Backup der Running-Config zum TFTP-Server
       cisco.ios.ios_command:
         commands:
-          - command: "copy running-config tftp://{{ tftp_server }}/{{ config_filename }}"
+          - command: "copy running-config tftp://{{ tftp_server }}/{{ backup_dir }}/{{ config_filename }}"
             prompt:
               - "Address or name of remote host"
               - "Destination filename"
@@ -27,7 +26,29 @@
       register: backup_result
       timeout: 60
 
+    # Task 2: Find all backups for this switch on the TFTP server
+    - name: Find existing backups for the switch
+      ansible.builtin.find:
+        paths: "{{ backup_dir }}"
+        patterns: "switch_show_run_{{ inventory_hostname }}_*.txt"
+      register: found_backups
+      delegate_to: localhost  # Run this task on the Ansible control node (assuming TFTP dir is accessible locally)
+
+    # Task 3: Sort backups by filename (newest first)
+    - name: Sort backups by timestamp
+      ansible.builtin.set_fact:
+        sorted_backups: "{{ found_backups.files | sort(attribute='path', reverse=true) }}"
+
+    # Task 4: Delete older backups (keep only the latest 'keep_backups' files)
+    - name: Delete old backups
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ sorted_backups[keep_backups:] }}"  # Skip the first 'keep_backups' files, delete the rest
+      delegate_to: localhost
+      when: sorted_backups | length > keep_backups  # Only run if there are more backups than 'keep_backups'
+
+    # Task 5: Show backup result
     - name: Ergebnis anzeigen
       ansible.builtin.debug:
         var: backup_result
- 
