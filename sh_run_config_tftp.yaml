@@ -10,7 +10,6 @@
   tasks:
     - name: Generate a timestamp
       set_fact:
-        timestamp: "{{ now().strftime('%Y%m%d') }}"
         timestamp: "{{ now().strftime('%Y%m%d') }}" # wenn man stunden und minuten will, muss man halt noch dazuschreiben, sonst nur tag monat jahr
 
     - name: Deleting the previous file
