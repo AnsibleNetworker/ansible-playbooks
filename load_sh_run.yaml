@@ -1,12 +1,12 @@
 ---
 - name: Konfiguration vom TFTP-Server auf Switch anwenden
-  hosts: switches
+  hosts: Switch01
   gather_facts: no
   become: yes
   become_method: enable
   vars:
-    tftp_server: "192.168.1.10"
-    config_file: "switch_config.txt"
+    tftp_server: "192.168.100.132"
+    config_file: "switch_show_run_Switch01_20250303.txt"
 
   tasks:
     - name: "Konfigurationsmodus: 'file prompt quiet' aktivieren"
