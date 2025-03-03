@@ -1,0 +1,25 @@
+---
+- name: Konfiguration vom TFTP-Server auf Switch anwenden
+  hosts: switches
+  gather_facts: no
+  become: yes
+  become_method: enable
+  vars:
+    tftp_server: "192.168.100.132"  # IP-Adresse des TFTP-Servers
+    config_file: "switch_show_run_Switch01_20250303.txt"  # Name der Konfigurationsdatei auf dem TFTP-Server
+
+  tasks:
+    - name: Unterdrücke Bestätigungsaufforderungen
+      ios_command:
+        commands:
+          - file prompt quiet
+
+    - name: Kopiere Konfiguration vom TFTP-Server zum Switch
+      ios_command:
+        commands:
+          - copy tftp://{{ tftp_server }}/{{ config_file }} running-config
+      register: copy_result
+
+    - name: Ergebnis anzeigen
+      debug:
+        var: copy_result
