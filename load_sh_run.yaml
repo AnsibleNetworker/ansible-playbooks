@@ -1,6 +1,6 @@
 ---
 - name: Konfiguration vom TFTP-Server auf Switch anwenden
-  hosts: switches
+  hosts: Switch01
   gather_facts: no
   become: yes
   become_method: enable
