@@ -5,16 +5,17 @@
   become: yes
   become_method: enable
   vars:
-    tftp_server: "192.168.100.132"  # IP-Adresse des TFTP-Servers
-    config_file: "switch_show_run_Switch01_20250303.txt"  # Name der Konfigurationsdatei auf dem TFTP-Server
+    tftp_server: "192.168.1.10"
+    config_file: "switch_config.txt"
 
   tasks:
-    - name: Unterdrücke Bestätigungsaufforderungen
-      ios_command:
-        commands:
+    - name: "Konfigurationsmodus: 'file prompt quiet' aktivieren"
+      ios_config:  # <-- Änderung: ios_config statt ios_command
+        lines:
           - file prompt quiet
+        match: exact  # Stellt sicher, dass die Konfiguration nur einmal angewendet wird
 
-    - name: Kopiere Konfiguration vom TFTP-Server zum Switch
+    - name: Konfiguration vom TFTP-Server übernehmen
       ios_command:
         commands:
           - copy tftp://{{ tftp_server }}/{{ config_file }} running-config
