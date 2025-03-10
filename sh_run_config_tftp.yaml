@@ -5,12 +5,12 @@
 
   vars:
     tftp_server: "192.168.100.132"
-    config_filename: "backups/switch_show_run_{{ inventory_hostname }}_{{ timestamp }}.txt"  # Fixed filename for the same switch
+    config_filename: "backups/switch_show_run_{{ inventory_hostname }}_{{ timestamp }}.txt"
 
   tasks:
     - name: Generate a timestamp
       set_fact:
-        timestamp: "{{ now().strftime('%Y%m%d') }}" # wenn man stunden und minuten will, muss man halt noch dazuschreiben, sonst nur tag monat jahr
+        timestamp: "{{ now().strftime('%Y%m%d') }}"
 
     - name: Backup der Running-Config zum TFTP-Server
       cisco.ios.ios_command:
